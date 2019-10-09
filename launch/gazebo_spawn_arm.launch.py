@@ -24,7 +24,7 @@ def generate_launch_description():
 
     # GAZEBO_MODEL_PATH has to be correctly set for Gazebo to be able to find the model
     spawn_entity = Node(package='gazebo_ros', node_executable='spawn_entity.py',
-                        arguments=['-entity', 'arm_standalone','-file',arm_urdf_path, '-z', "0.03"],
+                        arguments=['-entity', 'arm_standalone','-file',arm_urdf_path],
                         output='screen')
 
     # Launch gzclient
