@@ -17,6 +17,7 @@ def generate_launch_description():
     arm_spawner = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(sim_share_path, 'launch',
                     'gazebo_spawn_arm.launch.py')),
+                    launch_arguments={'gym': 'True'}.items()
              )
     # Launch forward kinematics service
     lobot_desc_share_path = get_package_share_directory('lobot_description')
