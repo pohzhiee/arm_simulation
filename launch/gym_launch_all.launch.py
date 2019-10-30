@@ -23,11 +23,7 @@ def generate_launch_description():
     lobot_desc_share_path = get_package_share_directory('lobot_description')
     arm_urdf_path = os.path.join(lobot_desc_share_path,'robots/arm_standalone.urdf')
 
-    fk_node = launch_ros.actions.Node(
-        package='arm_fk_cpp', node_executable='arm_fk_exec', arguments=[arm_urdf_path, "__log_level:=info"], output='screen')
-
     return LaunchDescription([
         params_server,
-        arm_spawner,
-        fk_node
+        arm_spawner
     ])
