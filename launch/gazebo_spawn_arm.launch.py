@@ -1,13 +1,11 @@
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import ThisLaunchFileDir
+from launch.substitutions import ThisLaunchFileDir, LaunchConfiguration, PythonExpression
+from launch.conditions import IfCondition
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
-from launch.substitutions import LaunchConfiguration
-from launch.substitutions import PythonExpression
 
 
 def generate_launch_description():
@@ -40,13 +38,15 @@ def generate_launch_description():
                                                    'spawn_entity.launch.py')),
     )
     # Launch gzclient
-    gzclient = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(gazebo_ros_share_path, 'launch',
-                                                   'gzclient.launch.py')),
-    )
+    gzclient = IncludeLaunchDescription(PythonLaunchDescriptionSource(
+            os.path.join(gazebo_ros_share_path, 'launch','gzclient.launch.py')),
+            condition=IfCondition(LaunchConfiguration('gui')))
+
     return LaunchDescription([
         DeclareLaunchArgument('gym', default_value='False',
                               description='Bool to specify if the simulation is to be ran with openai gym training'),
+        DeclareLaunchArgument('gui', default_value='True',
+                              description='Bool to specify if gazebo should be launched with GUI or not'),
         gzserver,
         spawn_entity,
         gzclient,
