@@ -2,8 +2,6 @@ import os
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import ThisLaunchFileDir
-from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
 from ament_index_python.packages import get_package_share_directory
 from launch.substitutions import LaunchConfiguration
@@ -30,10 +28,6 @@ def generate_launch_description():
                                                    'gzserver.launch.py')),
         launch_arguments={'extra_gazebo_args': '__log_level:=info', 'pause': 'true', 'world': py_cmd}.items())
 
-    # GAZEBO_MODEL_PATH has to be correctly set for Gazebo to be able to find the model
-    # spawn_entity = Node(package='gazebo_ros', node_executable='spawn_entity.py',
-    #                    arguments=['-entity', 'arm_standalone','-file',arm_urdf_path],
-    #                    output='screen')
 
     spawn_entity = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(sim_share_path, 'launch',
